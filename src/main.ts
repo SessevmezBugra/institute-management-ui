@@ -63,9 +63,14 @@ bootstrapApplication(AppComponent, {
     provideRouter([
       {
         path: '',
-        redirectTo: 'home',
+        redirectTo: 'profile',
         pathMatch: 'full',
       },
+      {
+        path: 'profile',
+        loadChildren: () => import('./app/containers/profile/profile.routes').then((profile) => profile.PROFILE_ROUTES),
+      },
+      
     ]),
     provideStore({
       auth : authFeature.reducer,
