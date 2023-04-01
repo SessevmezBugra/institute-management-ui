@@ -1,23 +1,32 @@
 
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { APP_INITIALIZER, enableProdMode, importProvidersFrom, isDevMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { provideEffects } from '@ngrx/effects';
 import { provideRouterStore } from '@ngrx/router-store';
-import { provideStore, Store } from '@ngrx/store';
+import { provideState, provideStore, Store } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { AppComponent } from './app/containers/app/app.component';
 import { API_URL } from './app/core/http-client/api-url.token';
 import { environment } from './environments/environment';
 import { authFeature } from './app/core/auth/+state/auth.reducer';
-import { KeycloakAngularModule, KeycloakEventType, KeycloakService } from 'keycloak-angular';
+import { KeycloakAngularModule, KeycloakBearerInterceptor, KeycloakEventType, KeycloakService } from 'keycloak-angular';
 import { ngrxErrorFeature } from './app/core/ngrx-error/+state/ngrx-error.reducer';
 import { errorHandlingInterceptor } from './app/core/ngrx-error/ngrx-error-interceptor.service';
 import { NgrxErrorEffects } from './app/core/ngrx-error/+state/ngrx-error.effects';
 import { AuthEffects } from './app/core/auth/+state/auth.effects';
 import * as AuthActions from "./app/core/auth/+state/auth.actions";
+import { trainingListResolver } from './app/containers/training-list/data-access/service/training-list-resolver.service';
+import { TrainingResolverService } from './app/containers/training/data-access/service/training-resolver.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthFacade } from './app/core/auth';
+import { NgrxDialogFacade } from './app/core/ngrx-dialog/+state/ngrx-dialog.facade';
+import { trainingListEffects, TrainingListFacade, trainingListFeature } from './app/containers/training-list';
+import { ngrxFormsEffects, ngrxFormsFeature } from './app/core/ngrx-form';
+import { MatDialogModule } from '@angular/material/dialog';
+import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 
 if (environment.production) {
   enableProdMode();
@@ -35,15 +44,16 @@ function initializeKeycloak(keycloak: KeycloakService, store: Store) {
         onLoad: 'login-required',
         silentCheckSsoRedirectUri:
           window.location.origin + '/assets/silent-check-sso.html'
-      }
+      },
+      enableBearerInterceptor: true
     }).then((isOk) => {
-      if(isOk) {
+      if (isOk) {
         store.dispatch(AuthActions.initializeKeycloakSuccess());
-      }else {
-        store.dispatch(AuthActions.initializeKeycloakFailed({error: new Error('Keycloak initialize failed')}));
+      } else {
+        store.dispatch(AuthActions.initializeKeycloakFailed({ error: new Error('Keycloak initialize failed') }));
       }
     }).catch((error) => {
-      store.dispatch(AuthActions.initializeKeycloakFailed({error}));
+      store.dispatch(AuthActions.initializeKeycloakFailed({ error }));
     });
 }
 
@@ -60,30 +70,58 @@ function updateToken(keycloak: KeycloakService, store: Store) {
 
 bootstrapApplication(AppComponent, {
   providers: [
+    AuthFacade,
+    NgrxDialogFacade,
     provideRouter([
+      // {
+      //   path: '',
+      //   redirectTo: 'main-training',
+      //   pathMatch: 'full',
+      // },
       {
         path: '',
-        redirectTo: 'profile',
+        redirectTo: 'training',
         pathMatch: 'full',
       },
+      // {
+      //   path: 'main-training',
+      //   loadComponent: () => import('./app/containers/training/training.component').then((t) => t.TrainingComponent),
+      //   resolve: { mainTrainingResolver }
+      // },
       {
-        path: 'profile',
-        loadChildren: () => import('./app/containers/profile/profile.routes').then((profile) => profile.PROFILE_ROUTES),
+        path: 'training',
+        loadComponent: () => import('./app/containers/training-list/training-list.component').then((t) => t.TrainingListComponent),
+        resolve: { trainingListResolver },
+        providers: [provideState(trainingListFeature), provideEffects(trainingListEffects)],
       },
-      
+      {
+        path: 'training/:trainingId',
+        loadComponent: () => import('./app/containers/training/training.component').then((t) => t.TrainingComponent),
+        resolve: { TrainingResolverService }
+      },
+
     ]),
     provideStore({
-      auth : authFeature.reducer,
-      ngrxError: ngrxErrorFeature.reducer
+      auth: authFeature.reducer,
+      ngrxError: ngrxErrorFeature.reducer,
+      ngrxForms: ngrxFormsFeature.reducer,
     }),
-    provideEffects(NgrxErrorEffects, AuthEffects),
-    provideHttpClient(withInterceptors([errorHandlingInterceptor])),
+    provideEffects(NgrxErrorEffects, AuthEffects, ngrxFormsEffects),
+    provideHttpClient(
+      withInterceptors([errorHandlingInterceptor]), 
+      withInterceptorsFromDi()
+    ),
     importProvidersFrom(
       ServiceWorkerModule.register('ngsw-worker.js', {
         enabled: !isDevMode(),
         registrationStrategy: 'registerWhenStable:30000'
       }),
-      KeycloakAngularModule
+      KeycloakAngularModule, 
+      BrowserAnimationsModule,
+      MatDialogModule,
+      LoggerModule.forRoot({
+        level: environment.production ? NgxLoggerLevel.ERROR : NgxLoggerLevel.TRACE,
+      }),
     ),
     !environment.production ? provideStoreDevtools() : [],
     { provide: API_URL, useValue: environment.api_url },

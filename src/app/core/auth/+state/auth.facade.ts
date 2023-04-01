@@ -5,7 +5,7 @@ import { AuthState } from "./auth.reducer";
 import * as AuthActions from "./auth.actions";
 import { authQuery } from "./auth.selectors";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AuthFacade {
 
   isLoggedIn$ = this.store.select(authQuery.getIsLogin);

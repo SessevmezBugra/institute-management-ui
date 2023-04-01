@@ -4,7 +4,7 @@ import { KeycloakService } from "keycloak-angular";
 import { catchError, concatMap, map, merge, mergeMap, Observable, of, withLatestFrom } from "rxjs";
 import * as AuthActions from "./auth.actions";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AuthEffects {
 
     constructor(private actions$: Actions, private keycloakService: KeycloakService) { }
