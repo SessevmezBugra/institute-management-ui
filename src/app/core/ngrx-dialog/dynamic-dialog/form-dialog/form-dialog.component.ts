@@ -21,7 +21,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     DynamicFormComponent,
     MatButtonModule,
     MatDialogModule
-    
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

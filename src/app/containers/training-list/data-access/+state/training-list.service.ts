@@ -27,40 +27,8 @@ export class TrainingListService {
         return this.apiService.put('/training', training);
     }
 
-    getTrainingSectionsByTrainingId(trainingId: string): Observable<Array<TrainingSectionEntity>> {
-        return this.apiService.get('/training/' + trainingId + "/section");
-    }
-
-    createTrainingSection(trainingId: string, section: TrainingSectionEntity): Observable<void> {
-        return this.apiService.post('/training/' + trainingId + "/section", section);
-    }
-
-    updateTrainingSection(trainingId: string, section: TrainingSectionEntity): Observable<void> {
-        return this.apiService.put('/training/' + trainingId + "/section", section);
-    }
-
-    getTrainingMovesByTrainingIdAndSectionId(trainingId: string, sectionId: string): Observable<Array<TrainingMoveEntity>> {
-        return this.apiService.get('/training/' + trainingId + "/section/" + sectionId + "/move");
-    }
-
-    createTrainingMove(trainingId: string, sectionId: string, section: TrainingMoveEntity): Observable<void> {
-        return this.apiService.post('/training/' + trainingId + "/section/" + sectionId + "/move", section);
-    }
-
-    updateTrainingMove(trainingId: string, sectionId: string, section: TrainingMoveEntity): Observable<void> {
-        return this.apiService.put('/training/' + trainingId + "/section/" + sectionId + "/move", section);
-    }
-
     deleteTrainingById(trainingId: string): Observable<void> {
         return this.apiService.delete('/training/' + trainingId);
-    }
-
-    deleteTrainingSectionById(trainingId: string, sectionId: string): Observable<void> {
-        return this.apiService.delete('/training/' + trainingId + '/section/' + sectionId);
-    }
-
-    deleteTrainingMoveById(trainingId: string, sectionId: string, moveId: string): Observable<void> {
-        return this.apiService.delete('/training/' + trainingId + '/section/' + sectionId + '/move/' + moveId);
     }
 
 }

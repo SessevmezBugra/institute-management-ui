@@ -1,10 +1,10 @@
-.mat-row .mat-cell {
+.cdk-row .cdk-cell {
     border-bottom: 1px solid transparent;
     border-top: 1px solid transparent;
     cursor: pointer;
   }
   
-  .mat-row:hover .mat-cell {
+  .cdk-row:hover .cdk-cell {
     border-color: currentColor;
   }
   

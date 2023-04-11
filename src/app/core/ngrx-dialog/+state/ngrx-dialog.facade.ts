@@ -6,8 +6,7 @@ import { FormDialogComponent } from '../dynamic-dialog/form-dialog/form-dialog.c
 import { MessageDialogComponent } from '../dynamic-dialog/message-dialog/message-dialog.component';
 import { LoginRequiredMessage } from '../dynamic-dialog/message-dialog/ngrx-dialog-message-templates/login-required.message';
 import * as NgrxDialogActions from './ngrx-dialog.actions';
-import { FormDialog, MessageDialog } from './ngrx-dialog.interfaces';
-import { NgrxDialogState } from './ngrx-dialog.reducer';
+import { FormDialog, MessageDialog, NgrxDialog } from './ngrx-dialog.interfaces';
 import { ngrxDialogQuery } from './ngrx-dialog.selectors';
 
 @Injectable({ providedIn: 'root' })
@@ -18,7 +17,7 @@ export class NgrxDialogFacade {
     formDialogFormStructure$ = this.store.select(ngrxDialogQuery.getFormDialogFormStructure);
     formDialogFormData$ = this.store.select(ngrxDialogQuery.getFormDialogFormData);
 
-    constructor(private authFacade: AuthFacade, private store: Store<NgrxDialogState>, public dialog: MatDialog,) { }
+    constructor(private authFacade: AuthFacade, private store: Store<NgrxDialog>, public dialog: MatDialog,) { }
 
     private setMessageDialogData(data: MessageDialog) {
         this.store.dispatch(NgrxDialogActions.setMessageDialogData({ data }));

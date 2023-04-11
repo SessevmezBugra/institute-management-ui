@@ -1,1 +1,72 @@
-<p>training works!</p>
+<div class="d-flex justify-content-between">
+
+  <button [style.visibility]="isLocked ? 'hidden': 'visible'"  mat-raised-button color="primary" (click)="openTrainingSectionDialog()">
+    Bolum Ekle
+  </button>
+  <button mat-icon-button (click)="onClickLockIcon()">
+    <mat-icon [fontIcon]="lockIcon"></mat-icon>
+  </button>
+</div>
+
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let section of sections$ | async" hideToggle (opened)="onExpandedSection(section)">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{section.name}}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{section.desc}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div>
+    </div>
+    <table mat-table [dataSource]="moves$" style="width: 100%;">
+
+      <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Hareket Adi</th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="set">
+        <th mat-header-cell *matHeaderCellDef>Set Sayisi</th>
+        <td mat-cell *matCellDef="let element"> {{element.setNumber}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="repetation">
+        <th mat-header-cell *matHeaderCellDef> Tekar Sayisi </th>
+        <td mat-cell *matCellDef="let element"> {{element.repetitionNumber}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element; let i = index;">
+          <button mat-icon-button [matMenuTriggerFor]="menu" (click)="openTrainingMoveActionMenu(i, $event)" >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="openTrainingMoveDialog(element)">
+              <mat-icon>edit</mat-icon>
+              <span>Duzenle</span>
+            </button>
+            <button mat-menu-item (click)="openDeleteTrainingMoveWarningDialog(element)">
+              <mat-icon>delete</mat-icon>
+              <span>Sil</span>
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-action-row>
+      <button mat-raised-button color="primary" (click)="openTrainingMoveDialog()" *ngIf="!isLocked">Hareket Ekle</button>
+      <button mat-raised-button color="warn" (click)="openDeleteTrainingSectionWarningDialog(section)" *ngIf="!isLocked">Sil</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+  <mat-accordion>

@@ -19,7 +19,7 @@ import { NgrxErrorEffects } from './app/core/ngrx-error/+state/ngrx-error.effect
 import { AuthEffects } from './app/core/auth/+state/auth.effects';
 import * as AuthActions from "./app/core/auth/+state/auth.actions";
 import { trainingListResolver } from './app/containers/training-list/data-access/service/training-list-resolver.service';
-import { TrainingResolverService } from './app/containers/training/data-access/service/training-resolver.service';
+import { trainingResolver } from './app/containers/training/data-access/service/training-resolver.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthFacade } from './app/core/auth';
 import { NgrxDialogFacade } from './app/core/ngrx-dialog/+state/ngrx-dialog.facade';
@@ -27,6 +27,8 @@ import { trainingListEffects, TrainingListFacade, trainingListFeature } from './
 import { ngrxFormsEffects, ngrxFormsFeature } from './app/core/ngrx-form';
 import { MatDialogModule } from '@angular/material/dialog';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
+import { ngrxDialogFeature } from './app/core/ngrx-dialog/+state/ngrx-dialog.reducer';
+import { trainingEffects, trainingFeature } from './app/containers/training';
 
 if (environment.production) {
   enableProdMode();
@@ -97,7 +99,8 @@ bootstrapApplication(AppComponent, {
       {
         path: 'training/:trainingId',
         loadComponent: () => import('./app/containers/training/training.component').then((t) => t.TrainingComponent),
-        resolve: { TrainingResolverService }
+        resolve: { trainingResolver },
+        providers: [provideState(trainingFeature), provideEffects(trainingEffects)],
       },
 
     ]),
@@ -105,6 +108,7 @@ bootstrapApplication(AppComponent, {
       auth: authFeature.reducer,
       ngrxError: ngrxErrorFeature.reducer,
       ngrxForms: ngrxFormsFeature.reducer,
+      ngrxDialog: ngrxDialogFeature.reducer
     }),
     provideEffects(NgrxErrorEffects, AuthEffects, ngrxFormsEffects),
     provideHttpClient(

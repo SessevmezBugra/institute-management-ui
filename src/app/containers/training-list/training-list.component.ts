@@ -30,7 +30,7 @@ export class TrainingListComponent {
 
   @ViewChild(MatMenuTrigger) trigger!: QueryList<MatMenuTrigger>;
 
-  displayedColumns: string[] = ['name', 'desc', 'createdBy', 'createdDate', 'actions'];
+  displayedColumns: string[] = ['name', 'desc', 'createdDate', 'actions'];
   trainings$: Observable<Array<TrainingEntity>> = this.trainingListFacade.trainings$;
 
   constructor(private ngrxDialogFacade: NgrxDialogFacade, private trainingListFacade: TrainingListFacade) {}
@@ -68,7 +68,7 @@ export class TrainingListComponent {
   openTrainingActionMenu(index: number, event: Event) {
     event.stopPropagation();
     event.preventDefault();
-    this.trigger.toArray()[index].openMenu();
+    // this.trigger.toArray()[index].openMenu();
   }
 
   openDeleteTrainingWarningDialog(training: TrainingEntity) {
