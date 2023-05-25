@@ -1,3 +1,5 @@
+/// <reference types="@angular/localize" />
+
 
 import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { APP_INITIALIZER, enableProdMode, importProvidersFrom, isDevMode } from '@angular/core';

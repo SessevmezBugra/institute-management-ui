@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+<file datatype="plaintext" original="ng2.template" source-language="en" target-language="tr">
+<body>
+<trans-unit id="4094216519275457797">
+<source xml:space="preserve"> Create Training </source>
+<target xml:space="preserve"> Antrenman Oluştur </target>
+</trans-unit>
+<trans-unit id="4902817035128594900">
+<source xml:space="preserve">Description</source>
+<target xml:space="preserve">Açıklama</target>
+</trans-unit>
+<trans-unit id="6122463240113554732">
+<source xml:space="preserve"> Created By </source>
+<target xml:space="preserve">Oluşturan</target>
+</trans-unit>
+<trans-unit id="6895957551712292675">
+<source xml:space="preserve"> Creating Date </source>
+<target xml:space="preserve"> Oluşturma Tarihi </target>
+</trans-unit>
+<trans-unit id="9107876505754792180">
+<source xml:space="preserve">Training Name</source>
+<target xml:space="preserve">Antrenman Adı</target>
+</trans-unit>
+</body>
+</file>
+</xliff>

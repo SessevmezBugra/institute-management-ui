@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="4094216519275457797" datatype="html">
+        <source> Create Training </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/containers/training-list/training-list.component.html</context>
+          <context context-type="linenumber">2,4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9107876505754792180" datatype="html">
+        <source>Training Name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/containers/training-list/training-list.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4902817035128594900" datatype="html">
+        <source>Description</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/containers/training-list/training-list.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6122463240113554732" datatype="html">
+        <source> Created By </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/containers/training-list/training-list.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6895957551712292675" datatype="html">
+        <source> Creating Date </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/containers/training-list/training-list.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

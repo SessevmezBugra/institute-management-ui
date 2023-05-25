@@ -1,0 +1,16 @@
+{
+
+  "writeKey": "a7802302509590419117-c6907a6f11e27142786134e2bcdc8ab4a87fa9aad8259b3e5cab9168201e19e7",
+  "readKey": "a7802302509590419117-6478d79d6bb893cbb2b5228cb20702ca2203b05a5726b813ec76c3fa916943ed",
+
+  "upload": {
+    "type": "xliff",
+    "features": ["use_project_lang"],
+    "files": "messages.xlf"
+  },
+
+  "download": {
+    "files": "src/locale/messages.${lang}.xlf"
+  }
+
+}
